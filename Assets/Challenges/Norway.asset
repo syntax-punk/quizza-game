@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Norway
   m_EditorClassIdentifier: 
   Challenge: What is the capital of Norway?
+  Answers:
+  - Bergen
+  - Oslo
+  - Stavanger
+  - Moss
+  CorrectAnswerIndex: 1
