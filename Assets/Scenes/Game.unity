@@ -380,8 +380,8 @@ MonoBehaviour:
   - {fileID: 595256834}
   - {fileID: 1013977020}
   - {fileID: 551538566}
-  DefaultButtonSprite: {fileID: 0}
-  SuccessButtonSprite: {fileID: 0}
+  DefaultButtonSprite: {fileID: -2421234149185767044, guid: f2c229dfed92848b0b54cfb6e65530b8, type: 3}
+  SuccessButtonSprite: {fileID: -4659264650518790821, guid: b12335336bede45709d68d5af378ee64, type: 3}
 --- !u!1 &97116405
 GameObject:
   m_ObjectHideFlags: 0
