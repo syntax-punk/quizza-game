@@ -21,13 +21,7 @@ public class Quiz : MonoBehaviour
 
     void Start()
     {
-        ChallengeText.text = Challenge.GetChallenge();
-
-        for (int i = 0; i < AnswerButtons.Length; i++)
-        {
-            var buttonText = AnswerButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = Challenge.GetAnswer(i);
-        }
+        DisplayQuestion();
     }
 
     public void OnAnswerSelected(int index)
@@ -52,5 +46,32 @@ public class Quiz : MonoBehaviour
                 .GetComponent<Image>();
             buttonImage.sprite = SuccessButtonSprite;
         }
+
+        SetButtonsState(false);
+    }
+
+    private void DisplayQuestion()
+    {
+        ChallengeText.text = Challenge.GetChallenge();
+
+        for (int i = 0; i < AnswerButtons.Length; i++)
+        {
+            var buttonText = AnswerButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = Challenge.GetAnswer(i);
+        }
+    }
+
+    private void SetButtonsState(bool state)
+    {
+        foreach (var button in AnswerButtons)
+        {
+            button.GetComponent<Button>().interactable = state;
+        }
+    }
+
+    private void GetNextQuestion()
+    {
+        SetButtonsState(true);
+        DisplayQuestion();
     }
 }
