@@ -10,7 +10,11 @@ public class Timer : MonoBehaviour
 
     public bool IsAnsweringQuestion = false;
 
-    float timerValue;
+    public bool LoadNextQuestion = true;
+
+    public float TimerImageFillFraction;
+
+    private float _timerValue;
 
     // Update is called once per frame
     void Update()
@@ -18,24 +22,38 @@ public class Timer : MonoBehaviour
         UpdateTimer();
     }
 
+    public void CancelTimer()
+    {
+        _timerValue = 0;
+    }
+
     private void UpdateTimer()
     {
-        timerValue -= Time.deltaTime;
+        _timerValue -= Time.deltaTime;
 
         if (IsAnsweringQuestion)
         {
-            if (timerValue <= 0)
+            if (_timerValue > 0)
             {
-                timerValue = TimeToDisplayAnswer;
+                TimerImageFillFraction = _timerValue / TimeToAnswer;
+            }
+            else
+            {
+                _timerValue = TimeToDisplayAnswer;
                 IsAnsweringQuestion = false;
             }
         }
         else
         {
-            if (timerValue <= 0)
+            if (_timerValue > 0)
             {
-                timerValue = TimeToAnswer;
+                TimerImageFillFraction = _timerValue / TimeToDisplayAnswer;
+            }
+            else
+            {
+                _timerValue = TimeToAnswer;
                 IsAnsweringQuestion = true;
+                LoadNextQuestion = true;
             }
         }
     }
