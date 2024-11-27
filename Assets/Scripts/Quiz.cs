@@ -4,14 +4,21 @@ using UnityEngine.UI;
 
 public class Quiz : MonoBehaviour
 {
+    [Header("Questions")]
+
     [SerializeField]
     TextMeshProUGUI ChallengeText;
 
     [SerializeField]
     QuestionSO Challenge;
 
+    [Header("Answers")]
+    bool HasAnsweredEarly;
+
     [SerializeField]
     GameObject[] AnswerButtons;
+
+    [Header("Button Colors")]
 
     [SerializeField]
     Sprite DefaultButtonSprite;
@@ -19,12 +26,46 @@ public class Quiz : MonoBehaviour
     [SerializeField]
     Sprite SuccessButtonSprite;
 
+    [Header("Timer")]
+
+    [SerializeField]
+    Image TimerImage;
+
+    Timer timer;
+
     void Start()
     {
+        timer = FindFirstObjectByType<Timer>();
         GetNextQuestion();
     }
 
+    void Update()
+    {
+        TimerImage.fillAmount = timer.TimerImageFillFraction;
+
+        if (timer.LoadNextQuestion)
+        {
+            HasAnsweredEarly = false;
+            GetNextQuestion();
+            timer.LoadNextQuestion = false;
+        }
+        else if (!HasAnsweredEarly && !timer.IsAnsweringQuestion)
+        {
+            DisplayAnswer(-1);
+            SetButtonsState(false);
+        }
+    }
+
     public void OnAnswerSelected(int index)
+    {
+        DisplayAnswer(index);
+
+        HasAnsweredEarly = true;
+        SetButtonsState(false);
+        timer.CancelTimer();
+    }
+
+    private void DisplayAnswer(int index)
     {
         Image buttonImage;
         var correctAnswerIndex = Challenge.GetCorrectAnswerIndex();
@@ -46,8 +87,6 @@ public class Quiz : MonoBehaviour
                 .GetComponent<Image>();
             buttonImage.sprite = SuccessButtonSprite;
         }
-
-        SetButtonsState(false);
     }
 
     private void DisplayQuestion()
