@@ -35,9 +35,18 @@ public class Quiz : MonoBehaviour
 
     Timer timer;
 
+    [Header("Scoreing")]
+
+    [SerializeField]
+    TextMeshProUGUI ScoreText;
+
+    ScoreKeeper scoreKeeper;
+
     void Start()
     {
         timer = FindFirstObjectByType<Timer>();
+        scoreKeeper = FindFirstObjectByType<ScoreKeeper>();
+        scoreKeeper.SetTotalChallenges(Challenges.Count);
     }
 
     void Update()
@@ -47,7 +56,7 @@ public class Quiz : MonoBehaviour
         if (timer.LoadNextQuestion)
         {
             HasAnsweredEarly = false;
-            GetNextQuestion();
+            GetNextChallenge();
             timer.LoadNextQuestion = false;
         }
         else if (!HasAnsweredEarly && !timer.IsAnsweringQuestion)
@@ -64,6 +73,7 @@ public class Quiz : MonoBehaviour
         HasAnsweredEarly = true;
         SetButtonsState(false);
         timer.CancelTimer();
+        ScoreText.text = "Score: " + scoreKeeper.GetCalculatedScore() + "%";
     }
 
     private void DisplayAnswer(int index)
@@ -78,6 +88,7 @@ public class Quiz : MonoBehaviour
                 .GetComponent<Image>();
 
             buttonImage.sprite = SuccessButtonSprite;
+            scoreKeeper.IncrementCorrectAnswers();
         }
         else
         {
@@ -128,7 +139,7 @@ public class Quiz : MonoBehaviour
         }
     }
 
-    private void GetNextQuestion()
+    private void GetNextChallenge()
     {
         if (Challenges.Count == 0)
         {
