@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Animal
   m_EditorClassIdentifier: 
   Challenge: What is the fastest animal?
+  Answers:
+  - Eagle
+  - Cheetah
+  - Bat
+  - Cat
+  CorrectAnswerIndex: 1

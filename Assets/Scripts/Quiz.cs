@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,8 @@ public class Quiz : MonoBehaviour
     TextMeshProUGUI ChallengeText;
 
     [SerializeField]
-    QuestionSO Challenge;
+    List<QuestionSO> Challenges = new();
+    QuestionSO CurrentChallenge;
 
     [Header("Answers")]
     bool HasAnsweredEarly;
@@ -36,7 +38,6 @@ public class Quiz : MonoBehaviour
     void Start()
     {
         timer = FindFirstObjectByType<Timer>();
-        GetNextQuestion();
     }
 
     void Update()
@@ -68,7 +69,7 @@ public class Quiz : MonoBehaviour
     private void DisplayAnswer(int index)
     {
         Image buttonImage;
-        var correctAnswerIndex = Challenge.GetCorrectAnswerIndex();
+        var correctAnswerIndex = CurrentChallenge.GetCorrectAnswerIndex();
 
         if (index == correctAnswerIndex)
         {
@@ -80,7 +81,7 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            var correctAnswer = Challenge.GetAnswer(correctAnswerIndex);
+            var correctAnswer = CurrentChallenge.GetAnswer(correctAnswerIndex);
             ChallengeText.text = "Opps! Correct answer is: \n" + correctAnswer;
 
             buttonImage = AnswerButtons[correctAnswerIndex]
@@ -91,12 +92,23 @@ public class Quiz : MonoBehaviour
 
     private void DisplayQuestion()
     {
-        ChallengeText.text = Challenge.GetChallenge();
+        ChallengeText.text = CurrentChallenge.GetChallenge();
 
         for (int i = 0; i < AnswerButtons.Length; i++)
         {
             var buttonText = AnswerButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = Challenge.GetAnswer(i);
+            buttonText.text = CurrentChallenge.GetAnswer(i);
+        }
+    }
+
+    private void GetRandomChallenge()
+    {
+        var index = Random.Range(0, Challenges.Count);
+        CurrentChallenge = Challenges[index];
+
+        if (Challenges.Contains(CurrentChallenge))
+        {
+            Challenges.Remove(CurrentChallenge);
         }
     }
 
@@ -118,8 +130,16 @@ public class Quiz : MonoBehaviour
 
     private void GetNextQuestion()
     {
+        if (Challenges.Count == 0)
+        {
+            ChallengeText.text = "You finished the QUIZZA!";
+            SetButtonsState(false);
+            return;
+        }
+
         SetButtonsState(true);
         SetDefaultButtonSprites();
+        GetRandomChallenge();
         DisplayQuestion();
     }
 }

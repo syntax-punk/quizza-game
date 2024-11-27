@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Moon
   m_EditorClassIdentifier: 
   Challenge: What is the ditance to the moon?
+  Answers:
+  - 384,400 km
+  - 240,000 km
+  - 38,400 km
+  - 3,000,000 km
+  CorrectAnswerIndex: 0

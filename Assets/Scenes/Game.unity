@@ -375,7 +375,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChallengeText: {fileID: 30917389}
-  Challenge: {fileID: 11400000, guid: f7323e2a282d541f79292008349f7113, type: 2}
+  Challenges:
+  - {fileID: 11400000, guid: af4f5a0b4aaa04cd6a677abb1675029c, type: 2}
+  - {fileID: 11400000, guid: 345b5117edee2476496fa53728e69977, type: 2}
+  - {fileID: 11400000, guid: bef63accbb7ee4d2a92a06dc4ecd71f1, type: 2}
+  - {fileID: 11400000, guid: f7323e2a282d541f79292008349f7113, type: 2}
   AnswerButtons:
   - {fileID: 1681359332}
   - {fileID: 595256834}
@@ -383,6 +387,7 @@ MonoBehaviour:
   - {fileID: 551538566}
   DefaultButtonSprite: {fileID: -2421234149185767044, guid: f2c229dfed92848b0b54cfb6e65530b8, type: 3}
   SuccessButtonSprite: {fileID: -4659264650518790821, guid: b12335336bede45709d68d5af378ee64, type: 3}
+  TimerImage: {fileID: 1129080623}
 --- !u!1 &97116405
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +595,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeToAnswer: 30
-  TimeToDisplayAnswer: 10
+  TimeToDisplayAnswer: 5
+  IsAnsweringQuestion: 0
+  LoadNextQuestion: 1
+  TimerImageFillFraction: 0
 --- !u!4 &360639239
 Transform:
   m_ObjectHideFlags: 0

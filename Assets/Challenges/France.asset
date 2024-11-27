@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: France
   m_EditorClassIdentifier: 
   Challenge: What is the capital of France?
+  Answers:
+  - Madrid
+  - Nice
+  - Lyon
+  - Paris
+  CorrectAnswerIndex: 3
