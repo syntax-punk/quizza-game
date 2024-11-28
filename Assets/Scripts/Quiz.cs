@@ -15,7 +15,7 @@ public class Quiz : MonoBehaviour
     QuestionSO CurrentChallenge;
 
     [Header("Answers")]
-    bool HasAnsweredEarly;
+    bool HasAnsweredEarly = true;
 
     [SerializeField]
     GameObject[] AnswerButtons;
@@ -49,7 +49,7 @@ public class Quiz : MonoBehaviour
 
     public bool IsComplete { get; set; }
 
-    void Start()
+    void Awake()
     {
         timer = FindFirstObjectByType<Timer>();
         scoreKeeper = FindFirstObjectByType<ScoreKeeper>();
@@ -64,6 +64,13 @@ public class Quiz : MonoBehaviour
 
         if (timer.LoadNextQuestion)
         {
+
+            if (progressBar.value == progressBar.maxValue)
+            {
+                IsComplete = true;
+                return;
+            }
+
             HasAnsweredEarly = false;
             GetNextChallenge();
             timer.LoadNextQuestion = false;
@@ -84,11 +91,6 @@ public class Quiz : MonoBehaviour
         timer.CancelTimer();
 
         ScoreText.text = "Score: " + scoreKeeper.GetCalculatedScore() + "%";
-
-        if (progressBar.value == progressBar.maxValue)
-        {
-            IsComplete = true;
-        }
     }
 
     private void DisplayAnswer(int index)
@@ -157,11 +159,7 @@ public class Quiz : MonoBehaviour
     private void GetNextChallenge()
     {
         if (Challenges.Count == 0)
-        {
-            ChallengeText.text = "You finished the QUIZZA!";
-            SetButtonsState(false);
             return;
-        }
 
         SetButtonsState(true);
         SetDefaultButtonSprites();
